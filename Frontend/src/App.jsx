@@ -5,7 +5,8 @@ import ChatPage from "./Pages/ChatPage";
 
 function App() {
   return (
-    <Router>
+    <div className="App" >
+      <Router>
       <div>
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -13,6 +14,7 @@ function App() {
         </Routes>
       </div>
     </Router>
+    </div>
   );
 }
 
