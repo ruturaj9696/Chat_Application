@@ -1,12 +1,18 @@
 const express = require("express");
 const { chats } = require("./data/data");
 const dotenv = require("dotenv");
-const cors = require("cors")
+const cors = require("cors");
+const { connectDB } = require("./configuration/db");
+require("dotenv").config();
+
+connectDB();
 const app = express();
-app.use(cors({
-  credentials: true,
-  origin: 'http://localhost:5173',
-}));
+app.use(
+  cors({
+    credentials: true,
+    origin: "http://localhost:5173",
+  })
+);
 dotenv.config();
 
 app.get("/", (req, res) => {
