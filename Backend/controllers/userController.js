@@ -52,11 +52,24 @@ const authUser = expressAsyncHandler(async (req, res) => {
       pic: user.pic,
       token: await createToken(user._id),
     });
-    console.log(createToken("Token is : ",user._id));
+    console.log(createToken("Token is : ", user._id));
   } else {
     res.status(401);
     throw new Error("Invalid email or password !");
   }
 });
 
-module.exports = { registerUser, authUser };
+//Get all users other than currently logged in user
+const getUser = expressAsyncHandler(async (req, res) => {
+  const keyword = req.query.search
+    ? {
+        $or: [
+          { name: { $regex: req.query.search, $options: "i" } },
+          { email: { $regex: req.query.search, $options: "i" } },
+        ],
+      }
+    : {};
+  const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
+  res.send(users);
+});
+module.exports = { registerUser, authUser, getUser };
